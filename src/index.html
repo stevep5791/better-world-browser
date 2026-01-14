@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+  <title>Better World Browser</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Toolbar (always visible) -->
+    <div id="toolbar">
+      <div class="toolbar-left">
+        <div class="logo">
+          <span class="logo-icon">🧠</span>
+          <span class="logo-text">Better World Browser</span>
+        </div>
+      </div>
+
+      <div class="toolbar-center" id="capture-tools" style="display: none;">
+        <button class="tool-btn" id="btn-select" title="Select Element">
+          <span>🔲</span> Select
+        </button>
+        <button class="tool-btn" id="btn-screenshot" title="Take Screenshot">
+          <span>📸</span> Screenshot
+        </button>
+        <div class="category-select">
+          <label>Category:</label>
+          <select id="category-dropdown">
+            <option value="misinformation">Misinformation</option>
+            <option value="toxic">Toxic Content</option>
+            <option value="clickbait">Clickbait</option>
+            <option value="superficial">Superficial</option>
+            <option value="meme_overload">Meme Overload</option>
+            <option value="doomscrolling">Doomscrolling</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="toolbar-right">
+        <div id="user-info" style="display: none;">
+          <span class="username"></span>
+          <button class="btn-logout" id="btn-logout">Logout</button>
+        </div>
+        <div id="capture-count" style="display: none;">
+          <span class="count">0</span> captures
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Form (shown when not logged in) -->
+    <div id="login-container">
+      <div class="login-box">
+        <div class="login-header">
+          <h1>🧠 Better World Browser</h1>
+          <p class="tagline">Waze for Social Media</p>
+          <p class="description">Help identify brain rot content to train AI models that protect internet users.</p>
+        </div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required autocomplete="current-password">
+          </div>
+          <div id="login-error" class="error-message" style="display: none;"></div>
+          <button type="submit" class="btn-login">Login to Start</button>
+        </form>
+
+        <div class="login-footer">
+          <p>Don't have an account? <a href="https://brainrot.bluechiplabs.ai/auth/register.php" target="_blank">Register here</a></p>
+          <p class="privacy">Your browsing data stays on your device. Only reported content is sent to our servers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Facebook container (BrowserView renders here) -->
+    <div id="facebook-container"></div>
+
+    <!-- Capture notification -->
+    <div id="capture-notification" style="display: none;">
+      <div class="notification-content">
+        <span class="notification-icon">✓</span>
+        <span class="notification-text">Content captured!</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

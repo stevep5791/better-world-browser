@@ -1,0 +1,51 @@
+{
+  "name": "better-world-browser",
+  "productName": "Better World Browser",
+  "version": "1.0.0",
+  "description": "A browser for identifying and reporting brain rot content - Waze for Social Media",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux"
+  },
+  "keywords": ["brain-rot", "social-media", "ml-training", "electron"],
+  "author": "BlueChip Labs",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  },
+  "build": {
+    "appId": "ai.bluechiplabs.betterworldbrowser",
+    "productName": "Better World Browser",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "assets/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "icon": "assets/icons/icon.icns",
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "icon": "assets/icons/icon.ico",
+      "target": ["nsis", "portable"]
+    },
+    "linux": {
+      "icon": "assets/icons",
+      "target": ["AppImage", "deb"]
+    }
+  }
+}
