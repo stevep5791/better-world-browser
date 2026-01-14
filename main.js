@@ -238,8 +238,12 @@ function injectBrainrotButtons() {
           timestamp: new Date().toISOString()
         };
 
-        // Send to main process
-        window.postMessage({ type: 'BRAINROT_CAPTURE', data: postData }, '*');
+        // Send to main process via exposed API
+        if (window.brainrotCapture && window.brainrotCapture.submit) {
+          window.brainrotCapture.submit(postData);
+        } else {
+          console.error('brainrotCapture API not available');
+        }
 
         // Visual feedback
         const btn = postElement.querySelector('.brainrot-btn');

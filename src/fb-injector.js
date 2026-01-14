@@ -1,22 +1,18 @@
 // Facebook BrowserView preload script
-// This runs in the Facebook webview context
+// This runs in the Facebook webview context with context isolation
 
 const { contextBridge, ipcRenderer } = require('electron');
 
 console.log('FB Injector preload loaded!');
 
-// Listen for messages from injected content script
-window.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'BRAINROT_CAPTURE') {
-    console.log('FB Injector: Received capture, forwarding to main process');
-    // Forward to main process
-    ipcRenderer.send('brainrot-capture', event.data.data);
+// Expose capture function directly to the page
+// The injected script calls window.brainrotCapture.submit() which
+// goes directly to ipcRenderer.send - no postMessage needed
+contextBridge.exposeInMainWorld('brainrotCapture', {
+  submit: (captureData) => {
+    console.log('brainrotCapture.submit called');
+    ipcRenderer.send('brainrot-capture', captureData);
   }
 });
 
-// Expose minimal API
-contextBridge.exposeInMainWorld('brainrotCapture', {
-  send: (data) => {
-    window.parent.postMessage({ type: 'BRAINROT_CAPTURE', data }, '*');
-  }
-});
+console.log('brainrotCapture.submit API exposed to page');
