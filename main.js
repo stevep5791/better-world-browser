@@ -276,6 +276,43 @@ function injectBrainrotButtons() {
 }
 
 // IPC Handlers
+
+// Handle captures from Facebook BrowserView
+ipcMain.on('brainrot-capture', async (event, captureData) => {
+  console.log('Received capture from Facebook view:', captureData);
+
+  try {
+    const brainrotSession = store.get('brainrot_session');
+    if (!brainrotSession) {
+      console.error('Not logged in - cannot submit capture');
+      return;
+    }
+
+    const response = await fetch(`${BRAINROT_SERVER}/api/capture.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${brainrotSession.token}`
+      },
+      body: JSON.stringify({
+        ...captureData,
+        userid: brainrotSession.userid,
+        source: 'better-world-browser'
+      })
+    });
+
+    const result = await response.json();
+    console.log('Capture submitted:', result);
+
+    // Notify the main window
+    if (mainWindow) {
+      mainWindow.webContents.send('capture-result', result);
+    }
+  } catch (err) {
+    console.error('Failed to submit capture:', err);
+  }
+});
+
 ipcMain.handle('brainrot-login', async (event, credentials) => {
   try {
     const response = await fetch(`${BRAINROT_SERVER}/api/auth.php`, {

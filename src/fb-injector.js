@@ -3,9 +3,12 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 
+console.log('FB Injector preload loaded!');
+
 // Listen for messages from injected content script
 window.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'BRAINROT_CAPTURE') {
+    console.log('FB Injector: Received capture, forwarding to main process');
     // Forward to main process
     ipcRenderer.send('brainrot-capture', event.data.data);
   }
